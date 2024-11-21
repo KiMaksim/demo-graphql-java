@@ -1,0 +1,64 @@
+type User {
+    id: ID!
+    name: String!
+    birthday: String!
+    address: Address
+    posts: [Post]
+    followers: [Follower]
+}
+
+type Address {
+    id: ID!
+    street: String!
+    postalCode: String!
+    city: String!
+}
+
+# Post Type
+type Post {
+    id: ID!
+    title: String!
+    content: String!
+    likeCount: Int!
+    dislikeCount: Int!
+    author: User
+}
+
+# Follower Type
+type Follower {
+    id: ID!
+    name: String!
+    birthday: String!
+    address: Address
+    followTo: User
+}
+
+# Query Types
+type Query {
+    getUser(id: ID!): User
+    getUsers: [User]
+    getPostById(id: ID!): Post
+    getPostsByUser(userId: ID!): [Post]
+    getFollowersByUser(userId: ID!): [Follower]
+    getAddress(id: ID!): Address
+}
+
+# Mutation Types
+type Mutation {
+    createUser(name: String!, birthday: String!, addressInput: AddressInput): User
+    updateUser(id: ID!, name: String, birthday: String, addressInput: AddressInput): User
+    deleteUser(id: ID!): Boolean
+
+    createPost(title: String!, content: String!, userId: ID!): Post
+    updatePost(id: ID!, title: String, content: String): Post
+    deletePost(id: ID!): Boolean
+
+    createFollower(name: String!, birthday: String!, addressInput: AddressInput, userId: ID!): Follower
+    deleteFollower(id: ID!): Boolean
+}
+
+input AddressInput {
+    street: String!
+    postalCode: String!
+    city: String!
+}
